@@ -17,19 +17,12 @@ stages
   }}
 
   stage ('create docker image')
-  {steps { sh 'docker build -t 040872219986.dkr.ecr.eu-central-1.amazonaws.com/my-ecr:latest .' }
+  {steps { sh 'docker build -t mynewimage .' }
   }
 
-  stage ('docker push from jenkins to AWS ECR')
-  {steps { withDockerRegistry(credentialsId: 'ecr:eu-central-1:aws-cred', url: 'https://040872219986.dkr.ecr.eu-central-1.amazonaws.com') 
-     { sh 'docker push 040872219986.dkr.ecr.eu-central-1.amazonaws.com/my-ecr:latest' }   
-   }}
+  
 
 
-  stage ('deploy to eks-kubernetes from jenkins')
-  {steps { withAWS(credentials: 'aws-cred', region: 'eu-central-1')
-   { sh 'aws eks --region eu-central-1 update-kubeconfig --name my-eks-prod'
-     sh 'kubectl apply -f eks-manifest.yaml' }}}    //helm install mychart .
 
 }
 }
