@@ -4,16 +4,14 @@ agent any
 stages
 {
   stage ('scm checkout')
-   {steps { git branch: 'master', url: 'https://github.com/prakashk0301/maven-project' }}
+   {steps { echo "hello" }}
 
   stage ('execute unit test')
-  {steps { withMaven(globalMavenSettingsConfig: 'd21e6d6d-ca32-4dc5-8e9f-5b0349019e1d', jdk: 'LocalJDK', maven: 'LocalMVN', mavenSettingsConfig: 'f0970571-2fc3-4564-bf1b-58673d0ec37c', traceability: true) 
-   { sh 'mvn test' } 
+  {steps { echo "second"
   }}
 
   stage ('code build')
-  {steps { withMaven(globalMavenSettingsConfig: 'd21e6d6d-ca32-4dc5-8e9f-5b0349019e1d', jdk: 'LocalJDK', maven: 'LocalMVN', mavenSettingsConfig: 'f0970571-2fc3-4564-bf1b-58673d0ec37c', traceability: true) 
-   { sh 'mvn package' } 
+  {steps { echo "third"
   }}
 
   stage ('create docker image')
