@@ -4,23 +4,12 @@ agent any
 stages
 {
   stage ('scm checkout')
-   {steps { echo "hello" }}
+   {steps { git 'https://github.com/kumargaurav039/maven-project.git' }}
 
-  stage ('execute unit test')
-  {steps { echo "second"
+  stage ('validate')
+  {steps { withMaven(globalMavenSettingsConfig: '', jdk: 'JAVA_HOME', maven: 'MVN_HOME', mavenSettingsConfig: '', traceability: true) {
+    sh 'mvn validate'
+}
   }}
-
-  stage ('code build')
-  {steps { echo "third"
-  }}
-
-  stage ('create docker image')
-  {steps { sh 'docker build -t mynewimage .' }
-  }
-
-  
-
-
-
 }
 }
