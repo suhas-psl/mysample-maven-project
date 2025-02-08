@@ -11,6 +11,8 @@ stages
     sh 'mvn validate'
 }
   }}
-  
+
+
+
 }
 }
