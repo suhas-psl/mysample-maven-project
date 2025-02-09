@@ -21,16 +21,17 @@ stages
 
   stage ('package the code')
   {steps { withMaven(globalMavenSettingsConfig: '', jdk: 'JAVA_HOME', maven: 'MVN_HOME', mavenSettingsConfig: '', traceability: true) {
-    sh 'mvn clean package'
+    sh 'mvn package'
 }
   }}
 
 // CD part
-  stage ('deploy the code')
+  stage ('deploy the code on tomcat')
   {steps {  
-
     sshagent(['DEVCICD']) {
-    sh 'scp -o StrictHostKeyChecking=no webapp/target/webapp.war ec2-user@172.31.15.52:/usr/share/tomcat/webapps'
+    sh 'scp -o StrictHostKeyChecking=no webapp/target/webapp.war ec2-user@172.31.9.214:/usr/share/tomcat/webapps'
+}
+    
 }
 
   }}
@@ -53,3 +54,7 @@ stages
 //is the source server's IP address, "source_file" is the file you want to copy, 
 //"destination_username" is the username on the destination server, and "destination_path" 
 //is the location where you want to copy the file on the destination server. 
+
+
+//cp src_file tgt_file
+//scp user_name/ path    IP address/user_name/path
