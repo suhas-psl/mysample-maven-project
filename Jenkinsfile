@@ -1,46 +1,51 @@
 pipeline
 {
-agent any
-stages
-{
-  // CI part
-  stage ('scm checkout')
-   {steps { git 'https://github.com/kumargaurav039/maven-project.git' }}
-
-  stage ('validate the code')
-  {steps { withMaven(globalMavenSettingsConfig: '', jdk: 'JAVA_HOME', maven: 'MVN_HOME', mavenSettingsConfig: '', traceability: true) {
-    sh 'mvn validate'
+    agent any
+    stages
+    {
+        // CI part
+        stage ('scm checkout')
+        {
+            steps {
+                git 'https://github.com/kumargaurav039/maven-project.git'
+            }
+        }
+        stage ('validate the code')
+        {
+            steps {
+                withMaven(globalMavenSettingsConfig: '', jdk: 'JAVA_HOME', maven: 'MVN_HOME', mavenSettingsConfig: '', traceability: true) {
+                    sh 'mvn validate'
+                }
+            }
+        }
+        stage ('compile the code')
+        {
+            steps {
+                withMaven(globalMavenSettingsConfig: '', jdk: 'JAVA_HOME', maven: 'MVN_HOME', mavenSettingsConfig: '', traceability: true) {
+                    sh 'mvn compile'
+                }
+            }
+        }
+        stage ('package the code')
+        {
+            steps {
+                withMaven(globalMavenSettingsConfig: '', jdk: 'JAVA_HOME', maven: 'MVN_HOME', mavenSettingsConfig: '', traceability: true) {
+                    sh 'mvn package'
+                }
+            }
+        }
+        // CD part
+        stage ('deploy the code on tomcat')
+        {
+            steps {
+                sshagent(['DEVCICD']) {
+                    sh 'scp -o StrictHostKeyChecking=no webapp/target/webapp.war ec2-user@172.31.9.214:/usr/share/tomcat/webapps'
+                }
+            }
+        }
+    }
 }
-  }}
 
-  stage ('compile the code')
-  {steps { withMaven(globalMavenSettingsConfig: '', jdk: 'JAVA_HOME', maven: 'MVN_HOME', mavenSettingsConfig: '', traceability: true) {
-    sh 'mvn compile'
-}
-  }}
-
-  stage ('package the code')
-  {steps { withMaven(globalMavenSettingsConfig: '', jdk: 'JAVA_HOME', maven: 'MVN_HOME', mavenSettingsConfig: '', traceability: true) {
-    sh 'mvn package'
-}
-  }}
-
-// CD part
-  stage ('deploy the code on tomcat')
-  {steps {  
-    sshagent(['DEVCICD']) {
-    sh 'scp -o StrictHostKeyChecking=no webapp/target/webapp.war ec2-user@172.31.9.214:/usr/share/tomcat/webapps'
-}
-    
-    
-}
-
-  }}
-
-
-
-}
-}
 
 
 //sh 'scp -o StrictHostKeyChecking=no  '
