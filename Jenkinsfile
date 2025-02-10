@@ -5,13 +5,13 @@ pipeline
     {
         // CI part
         stage ('scm checkout')
-        {
-            steps {
+        {agent { label 'MAVEN' }
+            steps { 
                 git 'https://github.com/kumargaurav039/maven-project.git'
             }
         }
         stage ('validate the code')
-        {
+        {agent { label 'MAVEN' }
             steps {
                 withMaven(globalMavenSettingsConfig: '', jdk: 'JAVA_HOME', maven: 'MVN_HOME', mavenSettingsConfig: '', traceability: true) {
                     sh 'mvn validate'
@@ -19,7 +19,7 @@ pipeline
             }
         }
         stage ('compile the code')
-        {
+        {agent { label 'MAVEN' }
             steps {
                 withMaven(globalMavenSettingsConfig: '', jdk: 'JAVA_HOME', maven: 'MVN_HOME', mavenSettingsConfig: '', traceability: true) {
                     sh 'mvn compile'
@@ -27,7 +27,7 @@ pipeline
             }
         }
         stage ('package the code')
-        {
+        {agent { label 'MAVEN' }
             steps {
                 withMaven(globalMavenSettingsConfig: '', jdk: 'JAVA_HOME', maven: 'MVN_HOME', mavenSettingsConfig: '', traceability: true) {
                     sh 'mvn package'
@@ -35,14 +35,14 @@ pipeline
             }
         }
         // CD part
-        stage ('deploy the code on tomcat')
+        /*stage ('deploy the code on tomcat')
         {
             steps {
                 sshagent(['DEVCICD']) {
                     sh 'scp -o StrictHostKeyChecking=no webapp/target/webapp.war ec2-user@172.31.9.214:/usr/share/tomcat/webapps'
                 }
             }
-        }
+        }*/
     }
 }
 
