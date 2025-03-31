@@ -32,15 +32,15 @@ pipeline {
     }
     stage('create docker image') {
       steps {
-        sh 'docker build -t e31531469/devops918:latest .'
+        sh 'docker build -t e31531469/devops923:latest .'
       }
     }
     stage('push docker image to dockerhub') {
       steps {
         
-        withDockerRegistry(credentialsId: 'DockerHubCredentials', url: 'https://index.docker.io/v1/') {
+        withDockerRegistry(credentialsId: 'Docker_hub_Cred', url: 'https://index.docker.io/v1/') {
             
-                sh 'docker push e31531469/devops918:latest'
+                sh 'docker push e31531469/devops923:latest'
             
         }
       }
