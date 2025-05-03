@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('scm checkout') {
       steps {
-        git branch: 'master', url: 'https://github.com/kumargaurav039/maven-project.git'
+        git branch: 'master', url: 'https://github.com/suhas-psl/kumar-maven-project.git'
       }
     }
 
@@ -17,11 +17,11 @@ pipeline {
       }
 
     
-    stage('deploy job') //valiadte, compile, test & then package
+    stage('deploy job') //deploy webapp.war
     {
       steps {
       sshagent(['DEV_CICD']) {
-        sh 'scp -o StrictHostKeyChecking=no webapp/target/webapp.war ec2-user@172.31.10.238:/usr/share/tomcat/webapps'
+        sh 'scp -o StrictHostKeyChecking=no webapp/target/webapp.war ec2-user@172.31.14.137:/usr/share/tomcat/webapps'
         }
 
 
