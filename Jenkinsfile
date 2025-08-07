@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('scm checkout') {
       steps {
-        git branch: 'master', url: 'https://github.com/suhas-psl/kumar-maven-project.git'
+        git branch: 'master', url: 'https://github.com/suhas-psl/myproject-maven-project.git'
       }
     }
 
