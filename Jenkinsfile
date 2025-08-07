@@ -8,23 +8,23 @@ pipeline{
         }
         stage('MVN compile') {
             steps{
-                sh 'mvn compile'
+                withMaven(globalMavenSettingsConfig: '', jdk: 'JDK_HOME', maven: 'MVN_HOME', mavenSettingsConfig: '', traceability: true) {
+                    sh 'mvn compile'
+              }
             }
         }
         stage('MVN Test'){
             steps{
-                sh 'mvn compile'
+                  withMaven(globalMavenSettingsConfig: '', jdk: 'JDK_HOME', maven: 'MVN_HOME', mavenSettingsConfig: '', traceability: true) {
+                    sh 'mvn test'
             }
         }
         stage('MVN Package'){
             steps{
-                sh 'mvn package'
+                  withMaven(globalMavenSettingsConfig: '', jdk: 'JDK_HOME', maven: 'MVN_HOME', mavenSettingsConfig: '', traceability: true) {
+                    sh 'mvn package'
             }
         }
-        stage('MVN Deploy'){
-            steps{
-                sh 'mvn deploy'
-            }
-        }
+
     }
 }
