@@ -19,6 +19,7 @@ pipeline{
                     sh 'mvn test'
             }
         }
+        }
         stage('MVN Package'){
             steps{
                   withMaven(globalMavenSettingsConfig: '', jdk: 'JDK_HOME', maven: 'MVN_HOME', mavenSettingsConfig: '', traceability: true) {
@@ -29,4 +30,3 @@ pipeline{
     }
 }
     }
-}
