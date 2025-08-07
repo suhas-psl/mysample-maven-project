@@ -1,22 +1,29 @@
 pipeline{
     agent any
     stages{
-        stage('Build') {
+        stage("Checkout Code") {
             steps{
-                echo "Building now 2025"
-                echo "Starting the project 2025"
+                git branch: 'master', url: 'https://github.com/kumargaurav039/maven-project'
             }
         }
-        stage('Test') {
+        stage('MVN compile') {
             steps{
-                echo "TEsting now"
-                echo "Hello World 2025"
-		echo "This is on branch 1907"
+                sh 'mvn compile'
             }
         }
-        stage('Deploy'){
+        stage('MVN Test'){
             steps{
-                echo "Deploying now"
+                sh 'mvn compile'
+            }
+        }
+        stage('MVN Package'){
+            steps{
+                sh 'mvn package'
+            }
+        }
+        stage('MVN Deploy'){
+            steps{
+                sh 'mvn deploy'
             }
         }
     }
